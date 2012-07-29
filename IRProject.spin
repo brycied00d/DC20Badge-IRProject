@@ -48,11 +48,16 @@ pub main | ir_rx_byte, ir_tx_byte
   ir_rx.start(IRRX)
   pause(5)                      ' give the drivers a moment to initialize
 
+  leds.set_all($FF)
   serial.str(string("OHAI"))
   newline
+  pause(150)
+  leds.set_all(0)
+  leds.set(7, $FF)
 
   repeat
-    ir_rx_byte := ir_rx.rx
+    ir_rx_byte := ir_rx.rx      ' According to sircs_rx.spin, this blocks
+    leds.toggle(0)
     serial.hex(ir_rx_byte, 1)
     newline
 
